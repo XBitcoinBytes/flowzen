@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowZen - Kanban Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    
+    <!-- Stripe.js (commented for future monetization) -->
+    <!-- <script src="https://js.stripe.com/v3/"></script> -->
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Welcome to FlowZen</h2>
+            <div id="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="signup">Sign Up</button>
+                <button class="tab-btn" data-tab="guest">Guest Mode</button>
+            </div>
+            
+            <div id="login-form" class="auth-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button id="login-btn" class="auth-btn">Login</button>
+            </div>
+            
+            <div id="signup-form" class="auth-form hidden">
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button id="signup-btn" class="auth-btn">Sign Up</button>
+            </div>
+            
+            <div id="guest-form" class="auth-form hidden">
+                <p>Continue as guest (data won't sync across devices)</p>
+                <button id="guest-btn" class="auth-btn">Continue as Guest</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Creation Modal -->
+    <div id="task-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Task</h3>
+                <button id="close-task-modal" class="close-btn">&times;</button>
+            </div>
+            <form id="task-form">
+                <input type="text" id="task-description" placeholder="Task description" required>
+                <input type="date" id="task-date" aria-label="Due date">
+                <div class="importance-selector">
+                    <label>Importance:</label>
+                    <div class="color-options">
+                        <input type="radio" id="low" name="importance" value="low" checked>
+                        <label for="low" class="color-option low">Low</label>
+                        <input type="radio" id="medium" name="importance" value="medium">
+                        <label for="medium" class="color-option medium">Medium</label>
+                        <input type="radio" id="high" name="importance" value="high">
+                        <label for="high" class="color-option high">High</label>
+                    </div>
+                </div>
+                <button type="submit" class="create-btn">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Completed Tasks Modal -->
+    <div id="completed-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Completed Tasks</h3>
+                <button id="close-completed-modal" class="close-btn">&times;</button>
+            </div>
+            <div id="completed-list" class="completed-list"></div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="hidden">
+        <header>
+            <div class="header-left">
+                <h1 class="logo-3d">FlowZen</h1>
+                <button id="sound-toggle" class="icon-btn" aria-label="Toggle sound">
+                    <i data-feather="volume-2"></i>
+                </button>
+            </div>
+            <div class="header-right">
+                <span id="user-email"></span>
+                <button id="logout-btn" class="icon-btn" aria-label="Logout">
+                    <i data-feather="log-out"></i>
+                </button>
+                <!-- Premium upgrade button (commented for monetization) -->
+                <!-- <button id="upgrade-btn" class="premium-btn">Unlock Unlimited</button> -->
+            </div>
+        </header>
+
+        <main class="kanban-board">
+            <!-- Sphere 1: Backlog -->
+            <div class="sphere-container" data-sphere="backlog">
+                <div class="sphere-label">Backlog</div>
+                <div class="sphere" id="backlog-sphere">
+                    <canvas class="sphere-canvas" width="200" height="200"></canvas>
+                    <div class="task-container" id="backlog-tasks"></div>
+                    <button class="add-task-btn" aria-label="Add new task">
+                        <i data-feather="plus"></i>
+                    </button>
+                </div>
+                <div class="task-count">
+                    <span id="backlog-count">0</span> tasks
+                </div>
+            </div>
+
+            <!-- Sphere 2: Next Up -->
+            <div class="sphere-container" data-sphere="next">
+                <div class="sphere-label">Next Up</div>
+                <div class="sphere" id="next-sphere">
+                    <canvas class="sphere-canvas" width="200" height="200"></canvas>
+                    <div class="task-container" id="next-tasks"></div>
+                </div>
+                <div class="task-count">
+                    <span id="next-count">0</span> / 6 tasks
+                </div>
+            </div>
+
+            <!-- Sphere 3: In Progress -->
+            <div class="sphere-container primary" data-sphere="progress">
+                <div class="sphere-label">In Progress</div>
+                <div class="sphere primary-sphere" id="progress-sphere">
+                    <canvas class="sphere-canvas" width="240" height="240"></canvas>
+                    <div class="task-container" id="progress-tasks"></div>
+                </div>
+                <div class="task-count">
+                    <span id="progress-count">0</span> / 3 tasks
+                </div>
+            </div>
+
+            <!-- Sphere 4: Completed -->
+            <div class="sphere-container" data-sphere="completed">
+                <div class="sphere-label">Completed</div>
+                <div class="sphere" id="completed-sphere">
+                    <canvas class="sphere-canvas" width="200" height="200"></canvas>
+                    <div class="task-container" id="completed-tasks"></div>
+                    <button class="view-completed-btn" aria-label="View all completed tasks">
+                        <i data-feather="eye"></i>
+                    </button>
+                </div>
+                <div class="task-count">
+                    <span id="completed-count">0</span> completed
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <!-- Loading screen -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading Zen Flow...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Set up environment variables for Firebase (fallback to defaults for demo)
+        window.ENV = {
+            VITE_FIREBASE_API_KEY: window.VITE_FIREBASE_API_KEY || 'demo-mode',
+            VITE_FIREBASE_PROJECT_ID: window.VITE_FIREBASE_PROJECT_ID || 'zen-flow-demo',
+            VITE_FIREBASE_APP_ID: window.VITE_FIREBASE_APP_ID || 'demo-mode'
+        };
+    </script>
+    <script src="firebase-config.js"></script>
+    <script src="canvas-animations.js"></script>
+    <script src="drag-drop.js"></script>
+    <script src="task-manager.js"></script>
+    <script src="audio-manager.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+Refine the existing Kanban task manager app in Replit to dramatically enhance the visual and artistic elements while preserving all current functionality (task addition, drag-and-drop, limits, popups, Firebase integration, etc.). Focus on transforming it into a calming, zen-inspired interface resembling a Japanese water garden—use soft blues, greens, and subtle gradients for the background with faint ripple patterns or abstract lily pad motifs (via CSS or Canvas). Keep everything in vanilla JavaScript, HTML, and CSS, with Canvas for animations.
+Key Visual Upgrades:
+
+Sphere Layout: Reposition the four spheres artistically: Make Sphere 3 (In Progress) the largest (e.g., 40% larger) and center it prominently as the focal point. Position the other three spheres (1: Backlog, 2: Ready/Next Up, 4: Completed) around it in an eye-pleasing, asymmetrical arrangement—like floating orbs in a pond (e.g., Sphere 1 top-left, Sphere 2 bottom-left, Sphere 4 right). Use CSS flexbox or absolute positioning for a fluid, responsive layout that feels organic and not linear.
+Sphere Design: Transform spheres into gorgeous, living artistic vessels with hyper-realistic liquid effects using HTML5 Canvas. Each sphere should appear as a breathing, watery orb: subtle undulating borders (wave-like ripples on hover/click), glossy reflections, and internal fluid simulation. For spheres with many tasks (especially 1 and 4), implement a frothing/bubbling animation where task representations (small colorful orbs or text labels) slowly bubble up from the bottom, float to the surface, gently pop/fade out, and get replaced by new ones—creating a constant, mesmerizing reminder. Use particle systems in Canvas for bubbles (e.g., small white/translucent dots rising and bursting). Animate at 60fps with requestAnimationFrame, but keep it low-intensity for calmness (e.g., slow speeds, easing functions).
+Task Representations: Inside spheres, show tasks as small, semi-transparent orbs or cards that integrate into the liquid effect—color-coded by importance (red/yellow/green glows). They should subtly move or sway as if suspended in water.
+Overall Aesthetic:
+
+Background: A serene gradient (deep blue at bottom fading to light green/blue at top) with overlaid subtle water ripple animations (Canvas or CSS keyframes) for a garden pond feel. Add faint, non-distracting elements like soft fog or distant koi fish silhouettes if feasible without complexity.
+Interactions: Gentle transitions—ripples expand from clicks, soft glow on hover. Optional subtle water bubble sounds (Web Audio API, toggleable).
+Simplicity: No clutter; ensure the design remains minimal and intuitive, with the artistic elements enhancing calmness rather than overwhelming.
+
+
+Performance and Modularity: Optimize Canvas for smooth performance (throttle animations). Keep code modular: separate files for layout CSS, sphere Canvas logic, and animations. Add comments for easy further tweaks.
+
+Output the updated full code: modified index.html, style.css, app.js, and helpers. Build directly on the existing prototype to retain functionality.

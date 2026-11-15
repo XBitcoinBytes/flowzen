@@ -1,0 +1,23 @@
+Create a complete, production-ready web application in Replit using HTML, CSS, and vanilla JavaScript (no frameworks like React to keep it simple and lightweight). The app is an innovative Kanban-based task manager with a calming, artistic interface inspired by a Japanese water garden—think soft blues, greens, and subtle water ripple effects for a zen, peaceful vibe. Use HTML5 Canvas for hyper-realistic liquid bubbling animations in the spheres to make them feel alive and breathing, but keep the code modular and easy to refine. Ensure the app is intuitive for non-technical users (like a child could figure it out) and focuses on simplicity: no menus, just four interactive spheres on a clean canvas background.
+Core Features:
+•	Four Spheres (Bubbles): These are gorgeous, artistic vessels with a hyper-realistic liquid effect (use Canvas to simulate water-like bubbling and frothing). They hold tasks as small, colorful orbs/text labels that bubble up subtly. Spheres with many tasks show tasks frothing to the surface, popping out gently (fading away), and being replaced by new ones—creating a constant, slight reminder without overwhelming. Keep animations smooth (60fps) but low-key for calmness. Spheres are not numbered; users interact intuitively. 
+o	Sphere 1 (Backlog): Unlimited tasks. All new tasks start here. Clicking the sphere opens a simple popup (modal) to add a task: text input for description, optional date picker for due date, and color picker (red/yellow/green) for importance. Tasks appear as bubbling orbs inside.
+o	Sphere 2 (Next Up): Max 6 tasks. Holds upcoming tasks. Users drag tasks from other spheres into/out of it (prevent adding if at limit). Suggest "Ready" or "Next Up" as labels (display subtly on hover).
+o	Sphere 3 (In Progress): Max 3 tasks. Largest and most prominent sphere (centered, slightly bigger). For active tasks user is working on. Drag in/out, enforce limit. This is the focus—make it glow softly.
+o	Sphere 4 (Completed): Unlimited completed tasks. Drag tasks here to mark done. With many tasks, show calming zen bubbling/frothing display. Users can click to view a scrollable list of accomplishments.
+•	Interactions: 
+o	Drag-and-drop tasks between spheres using native JS (Drag API). Tasks are small, editable cards/orbs inside spheres.
+o	Edit/delete tasks via right-click or long-press on a task orb.
+o	Spheres respond to hover/click with gentle ripples (Canvas water effect).
+•	Kanban Fundamentals: Limit WIP (work in progress) with max tasks in spheres 2 and 3. Use for workflows like project planning, trip organizing, book writing, or party planning—keep it versatile and simple.
+•	Interface Design: Extremely minimal and calming. Background: subtle water garden gradient (blues/greens with faint lily pads or ripples). Spheres float serenely. No clutter—auto-save progress. Mobile-responsive (flexbox/grid). Add soft sound effects (optional toggle: gentle water bubbles on interactions) via Web Audio API for immersion, but keep optional/off by default.
+Production-Ready Setup:
+•	Persistence: Local-first with cloud sync. Use localStorage for offline, but integrate Firebase (free tier) for real-time database to store tasks per user. Auto-sync on load/change.
+•	User Authentication: Simple email/password signup/login via Firebase Auth. Guest mode for trials, but prompt for account to save across devices. This enables monetization.
+•	Monetization Hooks: Add a subtle premium upgrade button (e.g., "Unlock Unlimited" for ad-free or extra spheres). Use Stripe.js for payments (commented code ready to enable). Track usage analytics with Firebase Analytics.
+•	Deployment: Make it deployable on Replit's static hosting or exportable to Vercel/Netlify. Include a README.md with setup instructions (e.g., add Firebase keys).
+•	Security/Best Practices: Sanitize inputs, handle errors gracefully (calm toast notifications), optimize for performance (debounce animations). Accessible (ARIA labels, keyboard nav).
+•	Testing/Refinement: Include basic unit tests (via console logs). Code should be well-commented, modular (separate JS files for spheres, drag logic, animations, Firebase). Easy to add features like due date reminders (browser notifications) later.
+Tech Constraints: Vanilla JS only. For Canvas animations, use requestAnimationFrame. No external libs except Firebase SDK (import via CDN). Keep total code under 1000 lines for simplicity.
+Output the full code structure: index.html, style.css, app.js, and any helpers. Start with a working prototype—focus on foundation for easy tweaks.
+
