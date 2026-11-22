@@ -1,5 +1,7 @@
 # Flowzen
 
+> **Archived.** This repository is no longer maintained. It is kept as a public record of an early experiment.
+
 A zen-inspired Kanban task-board demo. Built by Shaun Barry with AI tools on Replit. This is an early experiment, preserved as a public archive of the work.
 
 **Stack:** HTML, CSS, and vanilla JavaScript, with optional Firebase Auth and Realtime Database (the app runs in demo mode if those keys are not set).
