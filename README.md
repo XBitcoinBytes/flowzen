@@ -8,9 +8,9 @@ A zen-inspired Kanban task-board demo. Built by Shaun Barry with AI tools on Rep
 
 ---
 
-# Zen Flow - Kanban Task Manager
+## Features and setup
 
-A zen-inspired, production-ready Kanban task management application with beautiful liquid bubble animations and peaceful Japanese water garden aesthetics.
+A zen-inspired Kanban task management application with liquid bubble animations and Japanese water garden aesthetics.
 
 ## Features
 
@@ -43,3 +43,4 @@ FIREBASE_PROJECT_ID=your-project-id
 FIREBASE_APP_ID=your-app-id
 FIREBASE_MESSAGING_SENDER_ID=your-sender-id
 FIREBASE_MEASUREMENT_ID=your-measurement-id (optional)
+```
